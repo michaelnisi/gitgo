@@ -26,7 +26,7 @@ module.exports = function (path, options, callback) {
   })
 
   ps.on('close', function () {
-    stream.emit('end')
+    stream.emit('end', 'ok')
     if (callback) {
       callback(err)
     }

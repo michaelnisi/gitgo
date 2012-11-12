@@ -1,7 +1,7 @@
 
 // clone - clone gitgo repository
 
-var gitgo = require('../index.js')
+var gitgo = require('gitgo')
   , fs = require('fs')
   , repo = 'git://github.com/michaelnisi/troubled-www.git'
   , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
@@ -9,10 +9,6 @@ var gitgo = require('../index.js')
 fs.mkdirSync(path)
 
 gitgo(path, ['clone', repo])
-  .on('error', function (err) {
-    console.error(err)
-  })
-  .on('end', function () {
-    console.log('OK')
-  })
+  .on('error', console.error)
+  .on('end', console.log)
   .pipe(process.stdout)

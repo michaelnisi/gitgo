@@ -8,25 +8,27 @@ The gitgo Node module lets you execute git commands.
 
 ## Usage
 
-### Stream
+### Clone a repository
 
     var gitgo = require('gitgo')
+      , fs = require('fs')
+      , repo = 'git://github.com/michaelnisi/gitgo.git'
+      , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
 
-    gitpull('.')
-      .on('error', function (err) {
-        console.error(err.message)
-      })
-      .on('end', function () {
-        console.log('OK')
-      })
+    fs.mkdirSync(path)
 
-### Callback
-    
-    var gitpull = require('gitpull')
+    gitgo(path, ['clone', repo])
+      .on('error', console.error)
+      .on('end', console.log)
+      .pipe(process.stdout)
 
-    gitpull('.', function (err) {
-      err ? console.error(err.message) : console.log('OK')  
-    })
+### Add file contents
+
+### Record changes to repository
+
+### Fetch from and merge with another repository
+
+### Update remote refs
 
 ## Installation
 
