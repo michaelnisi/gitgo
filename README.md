@@ -1,6 +1,6 @@
 # gitgo - execute git commands
 
-[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png)](http://travis-ci.org/michaelnisi/gitgo)
+[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo)
 
 ## Description
 
