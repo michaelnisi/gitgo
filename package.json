@@ -1,0 +1,36 @@
+{
+  "name": "gitgo",
+  "description": "execute git commands",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/michaelnisi/gitgo.git"
+  },
+  "keywords": [
+    "execute",
+    "git",
+    "commands"
+  ],
+  "main": "./index.js",
+  "engines": {
+    "node": "0.8.x"
+  },
+  "directories": {
+    "lib": "lib",
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "devDependencies": {
+    "tap": "0.3.x",
+    "rimraf": "2.0.x"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Michael Nisi",
+    "email": "michael.nisi@gmail.com",
+    "url": "http://michaelnisi.com"
+  }
+}
