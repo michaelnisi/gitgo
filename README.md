@@ -22,14 +22,6 @@ The gitgo Node module lets you execute git commands.
       .on('end', console.log)
       .pipe(process.stdout)
 
-### Add file contents
-
-### Record changes to repository
-
-### Fetch from and merge with another repository
-
-### Update remote refs
-
 ## Installation
 
 install via [npm](http://npmjs.org/):
