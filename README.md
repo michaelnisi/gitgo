@@ -10,7 +10,7 @@ The gitgo Node module lets you execute git commands.
 
 ### Stream
 
-    var gitpull = require('gitpull')
+    var gitgo = require('gitgo')
 
     gitpull('.')
       .on('error', function (err) {
