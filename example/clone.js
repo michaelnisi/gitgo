@@ -3,7 +3,7 @@
 
 var gitgo = require('gitgo')
   , fs = require('fs')
-  , repo = 'git://github.com/michaelnisi/troubled-www.git'
+  , repo = 'git://github.com/michaelnisi/gitgo.git'
   , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
 
 fs.mkdirSync(path)
