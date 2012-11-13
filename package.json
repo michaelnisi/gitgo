@@ -1,7 +1,7 @@
 {
   "name": "gitgo",
-  "description": "execute git commands",
-  "version": "0.0.1",
+  "description": "Execute git commands",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/michaelnisi/gitgo.git"
