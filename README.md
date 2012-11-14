@@ -4,7 +4,7 @@
 
 ## Description
 
-The gitgo [Node](http://nodejs.org/) module lets you execute git commands. It is a simple wrapper that accepts an options array with a git command and arguments.
+The gitgo [Node](http://nodejs.org/) module lets you execute Git commands from Node. It simply wraps a child process into a readable stream. 
 
 ## Usage
 
@@ -24,9 +24,14 @@ The gitgo [Node](http://nodejs.org/) module lets you execute git commands. It is
 
 ## Signature
 
-### gitgo(path, [command, args, …])
+### gitgo(path, options, [callback])
 
-gitgo expects a path and an array. The first item of the array is a git command, all remaining items are arguments for the command.
+Returns a readable Stream.
+
+`options` is an array where the first item is the git command. Example:
+    ['add', '.']
+
+The optional callback gets one argument `(err)`.
 
 ## Events
 
