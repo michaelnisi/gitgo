@@ -28,7 +28,7 @@ The gitgo [Node](http://nodejs.org/) module lets you execute Git commands from N
 
 Returns a readable Stream.
 
-`options` is an array where the first item is the git command. Example:
+`options` is an array containing the git command to execute, followed by its options, e.g.
 
     ['add', '.']
 
