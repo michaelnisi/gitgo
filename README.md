@@ -38,12 +38,12 @@ The optional callback gets one argument `(err)`.
 ### Event:'error'
     function (err) {}
 
-Emitted if there was an error receiving data.
+Emitted if there was an error.
 
 ### Event:'data'
     function (data) {}
     
-Emits data from `stdout` and `stderr`.
+Emits data from `stdout` and `stderr` of the child process.
 
 ### Event:'end'
     function () {}
@@ -52,7 +52,7 @@ Emitted when the execution of the git command ends.
 
 ## Installation
 
-install via [npm](http://npmjs.org/):
+Install with [npm](http://npmjs.org/):
 
     npm install gitgo
 
