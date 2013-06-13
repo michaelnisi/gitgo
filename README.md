@@ -42,7 +42,7 @@ Emitted if there was an error.
 
 ### Event:'data'
     function (data) {}
-    
+
 Emits data from `stdout` and `stderr` of the child process.
 
 ### Event:'end'
