@@ -43,7 +43,6 @@ test('git add', function (t) {
 
   fs.writeFile(filename, 'console.log("Hello World!")', function (err) {
      var s = git(dir, ['add', '.'])
-      .on('error', t.fail)
       .on('end', function () {
         t.ok(true, 'should be ok')
         t.end()
@@ -56,7 +55,6 @@ test('git add', function (t) {
 
 test('commit', function (t) {
   var s = git(dir, ['commit', '-m', 'Add hello file'])
-    .on('error', t.fail)
     .on('end', function () {
       t.ok(true, 'should be ok')
       t.end()
