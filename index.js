@@ -1,16 +1,14 @@
 
-// gitgo - command git
+// gitgo - the stupid git wrapper
 
-var Stream = require('stream').Stream
+var Readable = require('stream').Readable
   , spawn = require('child_process').spawn
 
 module.exports = function (path, options, callback) {
   var ps = spawn('git', options, { cwd: path })
-    , stream = new Stream()
+    , stream = new Readable()
     , err = null
-
-  stream.readable = true
-  stream.writable = false
+    , source = ps.stdout
 
   function handleError(message) {
     err = new Error(message)
@@ -26,17 +24,21 @@ module.exports = function (path, options, callback) {
   })
 
   ps.on('close', function () {
-    stream.emit('end', 'ok')
+    stream.push(null)
     if (callback) {
       callback(err)
     }
   })
 
-  ps.stdout.on('data', function (data) {
-    stream.emit('data', data)
+  ps.stderr.on('data', handleError)
+
+  source.on('data', function (chunk) {
+    stream.push(chunk)
   })
 
-  ps.stderr.on('data', handleError)
+  stream._read = function () {
+    source.read()
+  }
 
   return stream
 }

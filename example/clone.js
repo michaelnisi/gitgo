@@ -1,7 +1,7 @@
 
 // clone - clone gitgo repository
 
-var gitgo = require('gitgo')
+var gitgo = require('../')
   , fs = require('fs')
   , repo = 'git://github.com/michaelnisi/gitgo.git'
   , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
