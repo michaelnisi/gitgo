@@ -18,7 +18,6 @@ The gitgo [Node](http://nodejs.org/) module makes it easier to execute Git comma
 
     gitgo(path, ['clone', repo])
       .on('error', console.error)
-      .on('end', console.log)
       .pipe(process.stdout)
 
 ## gitgo(path, options, [callback])

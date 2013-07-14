@@ -1,10 +1,10 @@
 
 // commit - record changes to the repository
 
-var gitgo = require('gitgo')
+var gitgo = require('../')
   , join = require('path').join
+  , Writable = require('stream').Writable
   , fs = require('fs')
-  , repo = 'git://github.com/michaelnisi/troubled-www.git'
   , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
   , queue = [init, add, commit]
 
@@ -17,9 +17,17 @@ function next () {
 }
 
 function git (options) {
+  var writer = new Writable()
+
+  writer._write = function (chunk, encoding, callback) {
+    console.log(chunk.toString())
+    callback()
+  }
+
   gitgo(path, options)
+    .pipe(writer)
     .on('error', console.error)
-    .on('end', next)
+    .on('finish', next)
 }
 
 function init () {
@@ -28,7 +36,6 @@ function init () {
 
 function add () {
   var filename = join(path, 'hello.js')
-
   fs.writeFile(filename, 'console.log("Hello World!")', function (err) {
     git(['add', '.'])
   })

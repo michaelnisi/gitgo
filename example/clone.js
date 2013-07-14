@@ -1,5 +1,5 @@
 
-// clone - clone gitgo repository
+// clone - clone into 'gitgo'
 
 var gitgo = require('../')
   , fs = require('fs')
@@ -10,5 +10,4 @@ fs.mkdirSync(path)
 
 gitgo(path, ['clone', repo])
   .on('error', console.error)
-  .on('end', console.log)
   .pipe(process.stdout)
