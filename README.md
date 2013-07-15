@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo)
 
+
 ## Description
 
 The gitgo [Node](http://nodejs.org/) module makes it slightly easier to execute Git commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from git.
@@ -31,9 +32,11 @@ The `gitgo` module exports a single function that returns a [Readable Stream](ht
 
 ## Installation
 
-Install with [npm](http://npmjs.org/):
+With [npm](http://npmjs.org) do:
 
     npm install gitgo
+
+[![NPM](https://nodei.co/npm/gitgo.png)](https://npmjs.org/package/gitgo)
 
 ## License
 
