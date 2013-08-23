@@ -4,7 +4,7 @@
 var Readable = require('stream').Readable
   , spawn = require('child_process').spawn
 
-module.exports = function (path, opts, cb) {
+module.exports = function (path, opts) {
   var ps = spawn('git', opts, { cwd: path })
     , stdout = ps.stdout
     , stderr = ps.stderr

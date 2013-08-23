@@ -19,15 +19,13 @@ The `gitgo` [Node](http://nodejs.org/) module makes it slightly easier to execut
 
     gitgo(path, ['clone', repo]).pipe(process.stdout)
 
-## gitgo(path, options, [callback])
+## gitgo(path, options)
 
 The `gitgo` module exports a single function that returns a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable).
 
 - `path` Directory path to target repo
 
 - `options` Array containing the git command to execute, followed by its options, e.g. `['add', '.']`
-
-- `callback` Function Optional. Called when the child process closes.
 
 ## Installation
 
