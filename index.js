@@ -3,8 +3,6 @@
 
 var Readable = require('stream').Readable
   , spawn = require('child_process').spawn
-  , Buffers = require('buffers')
-  , assert = require('assert')
 
 module.exports = function (path, opts, cb) {
   var ps = spawn('git', opts, { cwd: path })
