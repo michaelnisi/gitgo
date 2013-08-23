@@ -31,7 +31,7 @@ module.exports = function (path, opts) {
   })
 
   stream._read = function (size) {
-    var chunk = stdout.read()
+    var chunk = stdout.read(size)
     stream.push(chunk === null ? '' : chunk)
   }
 
