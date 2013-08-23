@@ -4,7 +4,8 @@ var test = require('tap').test
   , join = require('path').join
   , dir = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
   , spawn = require('child_process').spawn
-  , git = require('../')
+  , gitgo = require('../')
+  , es = require('event-stream')
 
 test('setup', function (t) {
   fs.mkdirSync(dir, 0700)
@@ -12,81 +13,81 @@ test('setup', function (t) {
 })
 
 test('not a git repository', function (t) {
-  var errors = []
+  var git = gitgo(dir, ['pull'])
 
-  var s = git(dir)
-    .on('error', function (err) {
-      errors.push(err)
-    })
-    .on('end', function () {
-      t.ok(errors.length, 'should contain errors')
-      t.end()
-    })
-    .on('readable', function () {
-      s.read()
-    })
+  git.on('end', function () {
+    t.ok(error, 'should have caught error')
+    t.end()
+  })
+
+  var error
+  git.on('error', function (er) {
+    error = er
+  })
+
+  git.on('readable', function () {
+    t.ok(git.read(), 'should not be null')
+  })
 })
 
 test('git init', function (t) {
-  var s = git(dir, ['init'])
-    .on('error', t.fail)
-    .on('end', function () {
-      t.ok(true, 'should be ok')
-      t.end()
-    })
-    .on('readable', function () {
-      s.read()
-    })
+  var git = gitgo(dir, ['init'])
+
+  git.on('end', function () {
+    t.ok(true, 'should be ok')
+    t.end()
+  })
+
+  git.on('readable', function () {
+    t.ok(git.read(), 'should not be null')
+  })
 })
 
 test('git add', function (t) {
   var filename = join(dir, 'hello.js')
-
   fs.writeFile(filename, 'console.log("Hello World!")', function (err) {
-     var s = git(dir, ['add', '.'])
-      .on('error', t.fail)
-      .on('end', function () {
-        t.ok(true, 'should be ok')
-        t.end()
-      })
-      .on('readable', function () {
-        s.read()
-      })
-  })
-})
+    var git = gitgo(dir, ['add', '.'])
 
-test('commit', function (t) {
-  var s = git(dir, ['commit', '-m', 'Add hello file'])
-    .on('error', t.fail)
-    .on('end', function () {
+    git.on('end', function () {
       t.ok(true, 'should be ok')
       t.end()
     })
-    .on('readable', function () {
-      s.read()
-    })
+
+    t.equal(null, git.read(), 'should be null')
+  })
 })
 
-test('failed push', function (t) {
-  var errors = []
+test('commit (non-flowing)', function (t) {
+  var git = gitgo(dir, ['commit', '-m', 'Add hello file'])
 
-  var s = git(dir, ['push'])
-    .on('error', function (err) {
-      errors.push(err)
-    })
-    .on('end', function () {
-      t.ok(errors.length > 0, 'should contain errors')
-      t.end()
-    })
-    .on('readable', function () {
-      s.read()
-    })
+  var found = []
+  git.on('end', function () {
+    t.ok(found.length, 'should have read something')
+    t.end()
+  })
+
+  var count = 0
+  git.on('readable', function () {
+    var chunk
+    while (null !== (chunk = git.read())) {
+      found.push(chunk)
+    }
+  })
+})
+
+test('log (flowing)', function (t) {
+  var git = gitgo(dir, ['log'])
+
+  git.pipe(es.writeArray(function (err, lines) {
+    t.ok(lines.length, 'should have read something')
+    t.end()
+  }))
 })
 
 test('teardown', function (t) {
   rimraf(dir, function (err) {
     fs.stat(dir, function (err) {
-      t.ok(!!err, 'should error')
+      t.ok(!!err, 'should clean up after ourselves')
       t.end()
     })
   })

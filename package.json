@@ -1,7 +1,7 @@
 {
   "name": "gitgo",
-  "description": "run git commands",
-  "version": "0.2.5",
+  "description": "the stupid git wrapper",
+  "version": "0.3.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/michaelnisi/gitgo.git"
@@ -13,7 +13,7 @@
   ],
   "main": "./index.js",
   "engines": {
-    "node": ">=0.10"
+    "node": "0.10.x"
   },
   "directories": {
     "lib": "lib",

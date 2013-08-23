@@ -3,41 +3,38 @@
 
 var Readable = require('stream').Readable
   , spawn = require('child_process').spawn
+  , Buffers = require('buffers')
+  , assert = require('assert')
 
-module.exports = function (path, options, callback) {
-  var ps = spawn('git', options, { cwd: path })
+module.exports = function (path, opts, cb) {
+  var ps = spawn('git', opts, { cwd: path })
+    , stdout = ps.stdout
+    , stderr = ps.stderr
     , stream = new Readable()
-    , err = null
-    , source = ps.stdout
 
-  function handleError(message) {
-    err = new Error(message)
-    stream.emit('error', err)
-  }
+  ps.on('close', function () {
+    stream.emit('close')
+  })
 
-  ps.on('exit', function (code) {
-    if (!!code) {
-      handleError(code)
-    }
-
+  ps.on('exit', function () {
     ps.kill()
   })
 
-  ps.on('close', function () {
+  stdout.on('readable', function () {
+    stream.read(0)
+  })
+
+  stdout.on('end', function () {
     stream.push(null)
-    if (callback) {
-      callback(err)
-    }
   })
 
-  ps.stderr.on('data', handleError)
-
-  source.on('data', function (chunk) {
-    stream.push(chunk)
+  stderr.on('data', function (chunk) {
+    stream.emit('error', new Error(chunk))
   })
 
-  stream._read = function () {
-    source.read()
+  stream._read = function (size) {
+    var chunk = stdout.read()
+    stream.push(chunk === null ? '' : chunk)
   }
 
   return stream

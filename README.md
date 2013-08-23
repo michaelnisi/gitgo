@@ -1,11 +1,10 @@
 # gitgo - the stupid git wrapper
 
-[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo)
-
+[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo) [![David DM](https://david-dm.org/michaelnisi/gitgo.png)](http://david-dm.org/michaelnisi/gitgo)
 
 ## Description
 
-The gitgo [Node](http://nodejs.org/) module makes it slightly easier to execute Git commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from git.
+The `gitgo` [Node](http://nodejs.org/) module makes it slightly easier to execute Git commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from git.
 
 ## Usage
 
