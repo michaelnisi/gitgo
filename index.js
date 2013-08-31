@@ -18,12 +18,20 @@ module.exports = function (path, opts) {
     ps.kill()
   })
 
+  ps.on('error', function (err) {
+    stream.emit(err)
+  })
+
   stdout.on('readable', function () {
     stream.read(0)
   })
 
   stdout.on('end', function () {
     stream.push(null)
+  })
+
+  stdout.on('error', function (err) {
+    stream.emit(err)
   })
 
   stderr.on('data', function (chunk) {
