@@ -11,6 +11,7 @@ module.exports = function (path, opts) {
     , stream = new Readable()
 
   ps.on('close', function () {
+    stream.push(null)
     stream.emit('close')
   })
 
@@ -26,10 +27,6 @@ module.exports = function (path, opts) {
     stream.read(0)
   })
 
-  stdout.on('end', function () {
-    stream.push(null)
-  })
-
   stdout.on('error', function (err) {
     stream.emit(err)
   })
@@ -39,8 +36,10 @@ module.exports = function (path, opts) {
   })
 
   stream._read = function (size) {
-    var chunk = stdout.read(size)
-    stream.push(chunk === null ? '' : chunk)
+    var chunk
+    while (null !== (chunk = stdout.read(size)) {
+      stream.push(chunk)
+    }
   }
 
   return stream
