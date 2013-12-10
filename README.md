@@ -4,35 +4,34 @@
 
 ## Description
 
-The `gitgo` [Node](http://nodejs.org/) module makes it slightly easier to execute Git commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from git.
+The `gitgo` [Node](http://nodejs.org/) module makes it slightly easier to execute [Git](http://git-scm.com/) commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from Git.
 
 ## Usage
 
 ### Cloning a repo
+```js
+var gitgo = require('gitgo')
+  , fs = require('fs')
+  , repo = 'git://github.com/michaelnisi/gitgo.git'
+  , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
 
-    var gitgo = require('gitgo')
-      , fs = require('fs')
-      , repo = 'git://github.com/michaelnisi/gitgo.git'
-      , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
-
-    fs.mkdirSync(path)
-
-    gitgo(path, ['clone', repo]).pipe(process.stdout)
-
-## gitgo(path, options)
+fs.mkdirSync(path)
+gitgo(path, ['clone', repo]).pipe(process.stdout)
+```
+## gitgo(path, opts)
 
 The `gitgo` module exports a single function that returns a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable).
 
 - `path` Directory path to target repo
 
-- `options` Array containing the git command to execute, followed by its options, e.g. `['add', '.']`
+- `opts` Array containing the git command to execute, followed by its options, e.g. `['add', '.']`
 
 ## Installation
 
 With [npm](http://npmjs.org) do:
-
-    npm install gitgo
-
+```
+npm install gitgo
+```
 [![NPM](https://nodei.co/npm/gitgo.png)](https://npmjs.org/package/gitgo)
 
 ## License
