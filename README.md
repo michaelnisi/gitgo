@@ -18,20 +18,15 @@ var gitgo = require('gitgo')
 fs.mkdirSync(path)
 gitgo(path, ['clone', repo]).pipe(process.stdout)
 ```
-## gitgo(path, opts)
+### gitgo(path, opts)
+
+- `path` Directory path to target repo
+- `opts` Array containing the git command to execute, followed by its options, e.g. `['add', '.']`
 
 The `gitgo` module exports a single function that returns a [Readable Stream](http://nodejs.org/api/stream.html#stream_class_stream_readable).
 
-- `path` Directory path to target repo
-
-- `opts` Array containing the git command to execute, followed by its options, e.g. `['add', '.']`
-
 ## Installation
 
-With [npm](http://npmjs.org) do:
-```
-npm install gitgo
-```
 [![NPM](https://nodei.co/npm/gitgo.png)](https://npmjs.org/package/gitgo)
 
 ## License
