@@ -1,7 +1,7 @@
 {
   "name": "gitgo",
   "description": "the stupid git wrapper",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/michaelnisi/gitgo.git"
@@ -22,7 +22,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap --tap test/*.js"
   },
   "devDependencies": {
     "event-stream": "3.0.x",

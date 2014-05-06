@@ -8,6 +8,29 @@ var test = require('tap').test
   , es = require('event-stream')
   , StringDecoder = require('string_decoder').StringDecoder
 
+test('setup', function (t) {
+  t.plan(1)
+  fs.mkdirSync(dir, 0700)
+  t.ok(fs.statSync(dir).isDirectory())
+  t.end()
+})
+
+test('not a git repository', function (t) {
+  t.plan(1)
+  var git = gitgo(dir, ['pull'])
+    , error
+  git.on('end', function () {
+    t.ok(error, 'should error')
+    t.end()
+  })
+  git.on('error', function (er) {
+    error = er
+  })
+  git.on('readable', function () {
+    while (null !== git.read()) {}
+  })
+})
+
 var decoder = new StringDecoder()
 function dec(buf) {
   return decoder.write(buf)
@@ -28,33 +51,19 @@ function tt(opts, t) {
   })
 }
 
-test('setup', function (t) {
-  fs.mkdirSync(dir, 0700)
-  t.end()
-})
-
-test('not a git repository', function (t) {
-  var git = gitgo(dir, ['pull'])
-    , error = null
-  git.on('end', function () {
-    t.ok(error, 'should have caught error')
-    t.end()
-  })
-  git.on('error', function (er) {
-    error = er
-  })
-  git.on('readable', function () {
-    while (null !== git.read()) {}
-  })
-})
-
 test('git init', function (t) {
   tt(['init'], t)
 })
 
+function write (name, str, cb) {
+  var filename = join(dir, name)
+  fs.writeFile(filename, str, function (er) {
+    cb(er)
+  })
+}
+
 test('git add (flowing)', function (t) {
-  var filename = join(dir, 'hello.js')
-  fs.writeFile(filename, 'console.log("Hello World!")', function (err) {
+  write('hello.js', 'console.log("Hello World!")', function (er) {
     var git = gitgo(dir, ['add', '.'])
     git.on('end', function () {
       t.ok(true, 'should be ok')
@@ -85,3 +94,4 @@ test('teardown', function (t) {
     })
   })
 })
+
