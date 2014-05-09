@@ -8,4 +8,6 @@ var gitgo = require('../')
 
 fs.mkdirSync(path)
 
-gitgo(path, ['clone', repo]).pipe(process.stdout)
+gitgo(path, ['clone', repo])
+  .on('error', console.error)
+  .pipe(process.stdout)

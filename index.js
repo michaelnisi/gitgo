@@ -10,48 +10,48 @@ function psopts (cwd) {
   }
 }
 
-var util = require('util')
-  , stream = require('stream')
-  , child_process = require('child_process')
+var child_process = require('child_process')
 
-function GitGo (dir, opts) {
-  if (!(this instanceof GitGo)) return new GitGo(dir, opts)
-  stream.Readable.call(this)
-
-  var ps = this.ps = child_process.spawn('git', opts, psopts(dir))
-    , me = this
-
+function spawn (stream) {
+  var dir = stream.dir
+    , opts = stream.opts
+    , ps = child_process.spawn('git', opts, psopts(dir))
   ps.on('close', function () {
-    me.push(null)
-    me.emit('close')
+    stream.push(null)
+    stream.emit('close')
   })
-
   function error (er) {
-    me.emit('error', er)
+    stream.emit('error', er)
   }
   ps.on('error', error)
   ps.stdout.on('error', error)
-  ps.stderr.on('data', error)
+  ps.stdout.pipe(stream)
+  ps.stderr.pipe(stream) // reading non-error stuff here too
+  return ps
 }
-util.inherits(GitGo, stream.Readable)
 
-GitGo.prototype._read = function (size) {
-  var stdout = this.stdout
-    , me = this
-  if (!stdout) {
-    stdout = this.stdout = this.ps.stdout
-    stdout.on('readable', function () {
-      read()
-    })
-  }
-  var ok = true
-  function read (size) {
-    var chunk
-    while (ok && null !== (chunk = stdout.read(size))) {
-      ok = me.push(chunk)
-    }
-    if (!ok) {
-      me.once('drain', read)
-    }
-  }
+var util = require('util')
+  , stream = require('stream')
+
+function GitGo (dir, opts) {
+  if (!(this instanceof GitGo)) return new GitGo(dir, opts)
+  stream.Transform.call(this)
+  this.dir = dir
+  this.opts = opts
+  spawn(this)
+}
+util.inherits(GitGo, stream.Transform)
+
+var StringDecoder = require('string_decoder').StringDecoder
+
+function error (chunk) {
+  var str = new StringDecoder().write(chunk)
+  return str.split(' ')[0] === 'fatal:' ? new Error(str) : null
+}
+
+GitGo.prototype._transform = function (chunk, enc, cb) {
+  var er = error(chunk)
+  if (er) this.emit('error', er)
+  this.push(chunk)
+  cb()
 }
