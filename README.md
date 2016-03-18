@@ -17,6 +17,7 @@ var path = '/tmp/gitgo-' + Math.floor(Math.random() * (1 << 24))
 fs.mkdirSync(path)
 gitgo(path, ['clone', repo]).pipe(process.stdout)
 ```
+
 ## API
 
 ### gitgo(path, opts)
@@ -28,8 +29,10 @@ The `gitgo` module exports a single function that returns a [Readable Stream](ht
 
 ## Installation
 
-[![NPM](https://nodei.co/npm/gitgo.png)](https://npmjs.org/package/gitgo)
+```
+% npm install pickup
+```
 
 ## License
 
-[MIT License](https://raw.github.com/michaelnisi/gitpull/master/LICENSE)
+[MIT License](https://raw.github.com/michaelnisi/gitgo/master/LICENSE)
