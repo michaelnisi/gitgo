@@ -1,16 +1,15 @@
+var assert = require('assert')
 var test = require('tap').test
-  , fs = require('fs')
-  , rimraf = require('rimraf')
-  , join = require('path').join
-  , dir = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
-  , spawn = require('child_process').spawn
-  , gitgo = require('../')
-  , es = require('event-stream')
-  , StringDecoder = require('string_decoder').StringDecoder
+var fs = require('fs')
+var rimraf = require('rimraf')
+var join = require('path').join
+var dir = '/tmp/gitgo-' + Math.floor(Math.random() * (1 << 24))
+var gitgo = require('../')
+var es = require('event-stream')
 
 test('setup', function (t) {
   t.plan(1)
-  fs.mkdirSync(dir, 0700)
+  fs.mkdirSync(dir)
   t.ok(fs.statSync(dir).isDirectory())
   t.end()
 })
@@ -18,7 +17,7 @@ test('setup', function (t) {
 test('not a git repository', function (t) {
   t.plan(1)
   var git = gitgo(dir, ['pull'])
-    , error
+  var error
   git.on('end', function () {
     t.ok(error, 'should error')
     t.end()
@@ -27,25 +26,20 @@ test('not a git repository', function (t) {
     error = er
   })
   git.on('readable', function () {
-    while (null !== git.read()) {}
+    while (git.read() !== null) {}
   })
 })
 
-var decoder = new StringDecoder()
-function dec(buf) {
-  return decoder.write(buf)
-}
-
-function tt(opts, t) {
+function tt (opts, t) {
   var git = gitgo(dir, opts)
-    , actual = []
+  var actual = []
   git.on('end', function () {
     t.is(actual.length, 1)
     t.end()
   })
   git.on('readable', function () {
-    var chunk;
-    while (null !== (chunk = git.read())) {
+    var chunk
+    while ((chunk = git.read()) !== null) {
       actual.push(chunk)
     }
   })
@@ -81,6 +75,7 @@ test('commit (non-flowing)', function (t) {
 test('log (flowing)', function (t) {
   var git = gitgo(dir, ['log'])
   git.pipe(es.writeArray(function (err, lines) {
+    assert.ifError(err)
     t.ok(lines.length, 'should have read something')
     t.end()
   }))
@@ -88,6 +83,7 @@ test('log (flowing)', function (t) {
 
 test('teardown', function (t) {
   rimraf(dir, function (err) {
+    assert.ifError(err)
     fs.stat(dir, function (err) {
       t.ok(!!err, 'should clean up after ourselves')
       t.end()

@@ -22,10 +22,10 @@
   },
   "scripts": {
     "pretest": "standard",
-    "test": "tap --tap test/*.js"
+    "test": "tap -b test/*.js"
   },
   "devDependencies": {
-    "event-stream": "3.0.x",
+    "event-stream": "^3.0.20",
     "rimraf": "2.0.x",
     "standard": "^6.0.8",
     "tap": "^5.7.0"

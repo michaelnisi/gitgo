@@ -1,12 +1,12 @@
-
 // commit - record changes to the repository
 
+var assert = require('assert')
 var gitgo = require('../')
-  , join = require('path').join
-  , Writable = require('stream').Writable
-  , fs = require('fs')
-  , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
-  , queue = [init, add, commit]
+var join = require('path').join
+var Writable = require('stream').Writable
+var fs = require('fs')
+var path = '/tmp/gitgo-' + Math.floor(Math.random() * (1 << 24))
+var queue = [init, add, commit]
 
 fs.mkdirSync(path)
 next()
@@ -37,6 +37,7 @@ function init () {
 function add () {
   var filename = join(path, 'hello.js')
   fs.writeFile(filename, 'console.log("Hello World!")', function (err) {
+    assert.ifError(err)
     git(['add', '.'])
   })
 }
