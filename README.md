@@ -2,16 +2,17 @@
 
 The `gitgo` [Node](http://nodejs.org/) module makes it slightly easier to execute [Git](http://git-scm.com/) commands from Node. It's a one-off function that spawns a child process to run the Git command, returning a readable stream to expose feedback from Git.
 
-[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo) [![David DM](https://david-dm.org/michaelnisi/gitgo.png)](http://david-dm.org/michaelnisi/gitgo)
+[![Build Status](https://secure.travis-ci.org/michaelnisi/gitgo.png?branch=master)](https://travis-ci.org/michaelnisi/gitgo)
 
 ## Usage
 
 ### Cloning a repo
+
 ```js
 var gitgo = require('gitgo')
-  , fs = require('fs')
-  , repo = 'git://github.com/michaelnisi/gitgo.git'
-  , path = '/tmp/gitgo-' + Math.floor(Math.random() * (1<<24))
+var fs = require('fs')
+var repo = 'git://github.com/michaelnisi/gitgo.git'
+var path = '/tmp/gitgo-' + Math.floor(Math.random() * (1 << 24))
 
 fs.mkdirSync(path)
 gitgo(path, ['clone', repo]).pipe(process.stdout)

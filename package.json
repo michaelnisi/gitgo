@@ -1,7 +1,7 @@
 {
   "name": "gitgo",
   "description": "the stupid git wrapper",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/michaelnisi/gitgo.git"
@@ -21,17 +21,22 @@
     "test": "test"
   },
   "scripts": {
-    "test": "tap --tap test/*.js"
+    "pretest": "standard",
+    "test": "tap -b test/*.js"
   },
   "devDependencies": {
-    "event-stream": "3.0.x",
-    "tap": "0.4.x",
-    "rimraf": "2.0.x"
+    "event-stream": "^3.3.2",
+    "rimraf": "^2.5.2",
+    "standard": "^6.0.8",
+    "tap": "^5.7.0"
   },
   "license": "MIT",
   "author": {
     "name": "Michael Nisi",
     "email": "michael.nisi@gmail.com",
     "url": "http://michaelnisi.com"
+  },
+  "dependencies": {
+    "readable-stream": "^2.0.6"
   }
 }
